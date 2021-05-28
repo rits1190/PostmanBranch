@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "2f9627e0-c330-42bc-ac9e-30addf3accda",
+		"name": "APIChainingREST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ListUsers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"    \r",
+							"pm.test(\"Validating Status as \"+pm.iterationData.get(\"Status\"), function () {\r",
+							"    pm.response.to.have.status(pm.iterationData.get(\"Status\"));\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validation of Header Field\"+pm.iterationData.get(\"HeaderName\")+\" value is \"+pm.iterationData.get(\"HeaderValue\"), () => {\r",
+							"  pm.expect(pm.response.headers.get(''+pm.iterationData.get(\"HeaderName\")+'')).to.eql(''+pm.iterationData.get(\"HeaderValue\")+'');\r",
+							"});\r",
+							"\r",
+							"//const jsonData = pm.response.json();\r",
+							"pm.test(\"Validation of Test data type of the response is successful\", () => {\r",
+							"  pm.expect(jsonData).to.be.an(\"object\");\r",
+							"  pm.expect(jsonData.data[0].id).to.be.a(\"number\");\r",
+							"  pm.expect(jsonData.data[0].email).to.be.a(\"string\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"FieldValue Expected is \"+eval(pm.iterationData.get(\"FieldPath\"))+\" and Actual is \"+pm.iterationData.get(\"FieldValue\"), function () {\r",
+							"     pm.expect(eval(pm.iterationData.get(\"FieldPath\"))).to.eql(pm.iterationData.get(\"FieldValue\"));  \r",
+							"});\r",
+							"\r",
+							"bodyData = JSON.parse(responseBody)\r",
+							"for (var i = 0; i< bodyData.length;i++)\r",
+							"{\r",
+							"    console.log(bodyData[i].username)\r",
+							"}\r",
+							"\r",
+							"value = bodyData.data[0].first_name\r",
+							"\r",
+							"console.log(value)\r",
+							"\r",
+							"//pm.environment.set(\"Username1\", value);\r",
+							"\r",
+							"pm.globals.set(\"Username1\", pm.iterationData.get(\"FieldValue\"));\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\"Script is getting started\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}",
+					"host": [
+						"{{endpoint}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"bodyData = JSON.parse(responseBody)\r",
+							"\r",
+							"value1 = bodyData.name\r",
+							"\r",
+							"console.log(value1)\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validation of fieldValue Name is \"+pm.iterationData.get(\"FieldValue\"), function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(pm.iterationData.get(\"FieldValue\"));\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":  \"{{Username1}}\",\r\n    \"job\" : \"zion resident\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

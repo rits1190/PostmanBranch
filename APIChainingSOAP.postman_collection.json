@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "e3016aaf-d58b-42c1-b7b7-56c9fc2c1afa",
+		"name": "APIChainingSOAP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetCountryCapitalName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 800ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Header Value Web-Service validation\", () => {\r",
+							"  pm.expect(pm.response.headers.get('Web-Service')).to.eql('DataFlex 19.1');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validating Capital Name As \"+pm.iterationData.get(\"Capital\"), function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"    console.log(jsonObject['soap:Envelope']['soap:Body']['m:CapitalCityResponse']['m:CapitalCityResult']);\r",
+							"    pm.expect(jsonObject['soap:Envelope']['soap:Body']['m:CapitalCityResponse']['m:CapitalCityResult']).to.eql(pm.iterationData.get(\"Capital\"));\r",
+							"});\r",
+							"\r",
+							"console.log(pm.iterationData.get(\"Capital\"))\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml;charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <web:CapitalCity>\r\n         <web:sCountryISOCode>{{CountryISOCode}}</web:sCountryISOCode>\r\n      </web:CapitalCity>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl",
+					"protocol": "http",
+					"host": [
+						"webservices",
+						"oorsprong",
+						"org"
+					],
+					"path": [
+						"websamples.countryinfo",
+						"CountryInfoService.wso"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCountryCurrency",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validating Currency Name As \"+pm.iterationData.get(\"Currency\"), function () {\r",
+							"    var jsonObject = xml2Json(responseBody);\r",
+							"    console.log(jsonObject['soap:Envelope']['soap:Body']['m:CountryCurrencyResponse']['m:CountryCurrencyResult']['m:sName']);\r",
+							"    pm.expect(jsonObject['soap:Envelope']['soap:Body']['m:CountryCurrencyResponse']['m:CountryCurrencyResult']['m:sName']).to.eql(pm.iterationData.get(\"Currency\"));\r",
+							"});\r",
+							"\r",
+							"console.log(pm.iterationData.get(\"Currency\"))\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml;charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <web:CountryCurrency>\r\n         <web:sCountryISOCode>{{CountryISOCode}}</web:sCountryISOCode>\r\n      </web:CountryCurrency>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl",
+					"protocol": "http",
+					"host": [
+						"webservices",
+						"oorsprong",
+						"org"
+					],
+					"path": [
+						"websamples.countryinfo",
+						"CountryInfoService.wso"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

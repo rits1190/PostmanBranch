@@ -1,0 +1,3 @@
+﻿endpoint,Status,HeaderName,HeaderValue,FieldPath,FieldValue
+https://reqres.in/api/users?page=2,200,Content-Type,application/json; charset=utf-8,jsonData.data[0].first_name,Michael
+https://reqres.in/api/users?page=2,200,Server,cloudflare,jsonData.data[1].first_name,Lindsay
